@@ -11,30 +11,27 @@ services:
   mongo:
     image: mongo:7
     restart: always
-    ports:
-      - "27017:27017"
+    ports: ["27017:27017"]
     volumes:
       - mongo_data:/data/db
-    networks:
-      - snapdocs_net
+    networks: [snapdocs_net]
 
   auth:
-    build: .backend/auth
+    build:
+      context: ./backend/auth              # <-- was ./auth
+      dockerfile: Dockerfile               # adjust if named differently
     restart: unless-stopped
-    # Prefer putting these in ./auth/.env and using env_file instead
     environment:
       MONGO_URI: mongodb://mongo:27017/snapdocs
       MONGO_DB: snapdocs
       JWT_SECRET: "replace-with-strong-secret"
       JWT_TTL_MIN: "120"
-      # Set this to your real site origin (scheme+host+port)
-      FRONTEND_ORIGIN: "http://localhost:8080"
+      FRONTEND_ORIGIN: "http://54.89.184.30:8080"  # your real origin
     ports:
-      - "4500:4000"           # external 4500 -> container 4000
+      - "4500:4000"
     depends_on:
       - mongo
-    networks:
-      - snapdocs_net
+    networks: [snapdocs_net]
 
   backend:
     build: ./backend
@@ -45,8 +42,7 @@ services:
       - mongo
     ports:
       - "4000:4000"
-    networks:
-      - snapdocs_net
+    networks: [snapdocs_net]
 
   frontend:
     build: ./frontend
@@ -56,5 +52,4 @@ services:
       - auth
     ports:
       - "8080:80"
-    networks:
-      - snapdocs_net
+    networks: [snapdocs_net]
