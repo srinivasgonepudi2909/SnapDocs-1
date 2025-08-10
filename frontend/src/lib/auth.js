@@ -1,39 +1,44 @@
-const API = import.meta.env.VITE_API_BASE;
+const KEY = "snapdocs_token";
 
-export const tokenKey = "snap_token";
-export const saveToken = (t) => localStorage.setItem(tokenKey, t);
-export const getToken  = () => localStorage.getItem(tokenKey) || "";
-export const clearToken = () => localStorage.removeItem(tokenKey);
+export function setToken(token) {
+  localStorage.setItem(KEY, token);
+}
+export function getToken() {
+  return localStorage.getItem(KEY);
+}
+export function clearToken() {
+  localStorage.removeItem(KEY);
+}
+export function isAuthed() {
+  const t = getToken();
+  return !!t && t.length > 10;
+}
 
-async function req(path, options = {}) {
-  const res = await fetch(`${API}${path}`, options);
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.detail || data.error || "Request failed");
-  return data;
+export async function api(path, { method = "GET", body, headers } = {}) {
+  const token = getToken();
+  const res = await fetch(`${import.meta.env.VITE_API_BASE}${path}`, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers,
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || res.statusText);
+  }
+  return res.json();
 }
 
 export async function signup(email, password) {
-  const data = await req("/auth/signup", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ email, password })
-  });
-  saveToken(data.token);
+  const data = await api("/auth/signup", { method: "POST", body: { email, password } });
+  setToken(data.token);
   return data.user;
 }
-
 export async function login(email, password) {
-  const data = await req("/auth/login", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ email, password })
-  });
-  saveToken(data.token);
+  const data = await api("/auth/login", { method: "POST", body: { email, password } });
+  setToken(data.token);
   return data.user;
-}
-
-export async function me() {
-  return req("/auth/me", {
-    headers: { Authorization: `Bearer ${getToken()}` }
-  });
 }
