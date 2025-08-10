@@ -4,5 +4,4 @@ build
 .git
 .gitignore
 Dockerfile
-deploy/nginx.conf
 *.log
