@@ -64,7 +64,7 @@ export default function HomeIntro() {
       </p>
 
       <div className="hi-actions">
-        <button className="btn btn--brand" id="upload">Upload</button>
+        <button className="btn btn--brand" id="Upload Documents">Upload</button>
       </div>
 
       <div className="hi-folders">
