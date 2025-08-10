@@ -9,18 +9,11 @@ export async function signup({ username, phone, email, password }) {
   });
 
   let data = null;
-  try {
-    data = await res.json();
-  } catch (_) {
-    // ignore
-  }
+  try { data = await res.json(); } catch (_) {}
 
   if (!res.ok) {
-    const msg =
-      (data && (data.detail || data.message)) ||
-      `Signup failed (${res.status})`;
+    const msg = (data && (data.detail || data.message)) || `Signup failed (${res.status})`;
     throw new Error(msg);
   }
-
-  return data; // { user: {...}, token: "..."} from your backend
+  return data;
 }
