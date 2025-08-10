@@ -11,7 +11,7 @@ function Folder({ icon, label }) {
   );
 }
 
-// ✅ Old icons from your previous code
+// ✅ Old icons you liked
 const icons = {
   study: (
     <svg viewBox="0 0 64 64">
@@ -57,7 +57,9 @@ export default function HomeIntro() {
         <img src={logo} alt="SnapDocs Logo" />
       </div>
 
-      <h1 className="hi-title">Access Your Documents<br />Anytime, Anywhere</h1>
+      {/* SINGLE-LINE INTRO */}
+      <h1 className="hi-title hi-title--single">Access your documents Anytime, Anywhere</h1>
+
       <p className="hi-sub">
         Create folders like <b>Study Certificates</b>, <b>Family Photos</b>, <b>Property Docs</b>,
         and upload securely. Access from any device—anywhere in the world.
