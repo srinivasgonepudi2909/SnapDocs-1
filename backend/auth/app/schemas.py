@@ -1,22 +1,21 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
 
-class SignupRequest(BaseModel):
-    username: str = Field(..., min_length=2, max_length=50)
-    phone: str = Field(..., min_length=7, max_length=15)
+class SignupIn(BaseModel):
+    username: str = Field(min_length=2, max_length=60)
+    phone: str = Field(min_length=7, max_length=20)
     email: EmailStr
-    password: str = Field(..., min_length=6)
+    password: str = Field(min_length=6, max_length=128)
 
-class LoginRequest(BaseModel):
+class LoginIn(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=6, max_length=128)
 
-class UserResponse(BaseModel):
+class UserOut(BaseModel):
     id: str
     username: str
     phone: str
     email: EmailStr
 
-class TokenResponse(BaseModel):
+class TokenOut(BaseModel):
     token: str
-    user: UserResponse
+    user: UserOut

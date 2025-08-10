@@ -2,11 +2,14 @@ import os
 from motor.motor_asyncio import AsyncIOMotorClient
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://mongo:27017/snapdocs")
-DB_NAME = os.getenv("MONGO_DB", "snapdocs")
-
 client = AsyncIOMotorClient(MONGO_URI)
-db = client[DB_NAME]
-users = db["users"]
+db = client.get_default_database()  # 'snapdocs'
+users_collection = db["users"]
+
+# optional: create index on email
+async def ensure_indexes():
+    await users_collection.create_index("email", unique=True)
+
 
 USER_VALIDATOR = {
     "$jsonSchema": {
