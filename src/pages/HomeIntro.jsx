@@ -51,24 +51,22 @@ const icons = {
 export default function HomeIntro() {
   return (
     <section className="hi-wrap">
-      <div className="hi-card">
-        <h1 className="hi-title">Access Your Documents<br/>Anytime, Anywhere</h1>
-        <p className="hi-sub">
-          Create folders like <b>Study Certificates</b>, <b>Family Photos</b>, <b>Property Docs</b>,
-          and upload securely. Access from any device—anywhere in the world.
-        </p>
+      <h1 className="hi-title">Access Your Documents<br/>Anytime, Anywhere</h1>
+      <p className="hi-sub">
+        Create folders like <b>Study Certificates</b>, <b>Family Photos</b>, <b>Property Docs</b>,
+        and upload securely. Access from any device—anywhere in the world.
+      </p>
 
-        <div className="hi-actions">
-          <a className="btn btn--brand" href="#get-started">Get Started</a>
-        </div>
+      <div className="hi-actions">
+        <a className="btn btn--brand" href="#get-started">Get Started</a>
+      </div>
 
-        <div className="hi-folders">
-          <Folder icon={icons.study}   label="Study Certificates" />
-          <Folder icon={icons.photos}  label="Family Photos" />
-          <Folder icon={icons.property} label="Property Docs" />
-          <Folder icon={icons.ids}     label="IDs" />
-          <Folder icon={icons.other}   label="Other Documents" />
-        </div>
+      <div className="hi-folders">
+        <Folder icon={icons.study}   label="Study Certificates" />
+        <Folder icon={icons.photos}  label="Family Photos" />
+        <Folder icon={icons.property} label="Property Docs" />
+        <Folder icon={icons.ids}     label="IDs" />
+        <Folder icon={icons.other}   label="Other Documents" />
       </div>
     </section>
   );

@@ -1,74 +1,46 @@
-/* container card */
 .hi-wrap {
-  display: grid;
-  place-items: center;
-  padding: 48px 16px 36px;
-  background: linear-gradient(180deg, #f7faff 0%, #ffffff 100%);
-  border-top: 1px solid #e8eef7;
-}
-.hi-card {
-  width: min(1100px, 96vw);
-  background: #fff;
-  border: 1px solid #eef2fb;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(15, 33, 77, 0.06);
-  padding: 36px 22px 28px;
   text-align: center;
+  padding: 4rem 2rem;
 }
 
-/* title/sub */
 .hi-title {
-  margin: 8px 0 8px;
-  font-size: clamp(28px, 4.5vw, 46px);
-  line-height: 1.15;
+  font-size: 2.5rem;
+  font-weight: bold;
   color: #0b2545;
-  font-weight: 800;
+  margin-bottom: 1rem;
 }
+
 .hi-sub {
-  margin: 6px auto 16px;
+  font-size: 1.1rem;
   color: #667085;
-  font-size: clamp(15px, 1.8vw, 18px);
-  max-width: 760px;
+  max-width: 700px;
+  margin: 0 auto 2rem;
 }
 
-/* CTA */
-.btn {
-  padding: 14px 24px;
+.hi-actions .btn--brand {
   font-size: 1rem;
-  border-radius: 14px;
-  font-weight: 700;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+  padding: 0.75rem 1.5rem;
 }
-.btn:hover { transform: scale(1.06); }
-.btn--brand { background:#1e66ff; color:#fff; border-color:#1e66ff; box-shadow:0 8px 20px rgba(30,102,255,.25); }
-.btn--brand:hover { background:#154acc; border-color:#154acc; box-shadow:0 10px 26px rgba(30,102,255,.32); }
 
-/* folders row */
 .hi-folders {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 26px;
-}
-.hi-folder {
-  display: grid;
-  justify-items: center;
-  row-gap: 8px;
-  padding: 10px 6px;
-}
-.hi-folder__icon { filter: drop-shadow(0 4px 10px rgba(0,0,0,.06)); }
-.hi-folder__label {
-  font-weight: 600;
-  color: #263e6a;
-  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-/* responsive */
-@media (max-width: 950px) {
-  .hi-folders { grid-template-columns: repeat(3, 1fr); }
+.hi-folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@media (max-width: 640px) {
-  .hi-folders { grid-template-columns: repeat(2, 1fr); }
+
+.hi-folder__icon {
+  margin-bottom: 0.5rem;
+}
+
+.hi-folder__label {
+  font-weight: bold;
+  color: #0b2545;
 }
