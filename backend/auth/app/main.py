@@ -14,7 +14,10 @@ app = FastAPI(title="Auth Service")
 origins = os.getenv("FRONTEND_ORIGIN", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "http://54.89.184.30:8080",  # your frontend origin with port
+        "http://54.89.184.30",       # if you ever serve from :80
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
