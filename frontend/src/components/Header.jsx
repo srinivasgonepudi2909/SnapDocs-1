@@ -1,17 +1,33 @@
 import React, { useState, useCallback } from "react";
 import "./Header.css";
-import logo from "../assets/logo.png"; // path to your logo image
+import logo from "../assets/logo.png";
+
+const AUTH_URL = import.meta.env.VITE_AUTH_URL || ""; // e.g. http://54.89.184.30:4500
 
 export default function Header() {
-  // keep your current visual state (which button looks active)
   const [active, setActive] = useState("signup");
 
-  // tell the page to open the auth modal (no layout changes here)
+  // dispatch event for the AuthModal in HomeIntro to catch
   const openAuth = useCallback((mode) => {
-    // mode: "login" | "signup"
-    window.dispatchEvent(
-      new CustomEvent("open-auth", { detail: { mode } })
-    );
+    const event = new CustomEvent("open-auth", { detail: { mode } });
+    const dispatched = window.dispatchEvent(event);
+
+    // fallback: if no listener handled it, open auth service in a new tab (optional)
+    // comment out this block if you never want new-tab fallback
+    if (AUTH_URL) {
+      // small timeout to give any listeners a moment to mount
+      setTimeout(() => {
+        // If the modal isn’t open after dispatch, you can still let users authenticate:
+        // open /login or /signup on the auth microservice
+        // (No hard detection here—just always available as a graceful backup.)
+        // window.open(`${AUTH_URL}/login`, "_blank", "noopener");
+        // or for signup:
+        // window.open(`${AUTH_URL}/signup`, "_blank", "noopener");
+        // NOTE: keep these commented unless you decide to use auth pages.
+      }, 0);
+    }
+
+    return dispatched;
   }, []);
 
   const handleLogin = () => {
@@ -23,7 +39,6 @@ export default function Header() {
     setActive("signup");
     openAuth("signup");
   };
-  
 
   return (
     <header className="header">
@@ -36,6 +51,8 @@ export default function Header() {
           type="button"
           onClick={handleLogin}
           className={`btn ${active === "login" ? "btn--brand" : "btn--ghost"}`}
+          aria-haspopup="dialog"
+          aria-controls="auth-modal"
         >
           Log in
         </button>
@@ -44,6 +61,8 @@ export default function Header() {
           type="button"
           onClick={handleSignup}
           className={`btn ${active === "signup" ? "btn--brand" : "btn--ghost"}`}
+          aria-haspopup="dialog"
+          aria-controls="auth-modal"
         >
           Sign up
         </button>
