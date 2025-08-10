@@ -1,22 +1,18 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    POETRY_VERSION=1.8.3
-
+RUN pip install --no-cache-dir poetry
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# copy only what exists
+COPY pyproject.toml ./
+# (optional if you have it)
+# COPY poetry.lock ./
 
-RUN pip install --no-cache-dir "poetry==${POETRY_VERSION}"
-
-COPY pyproject.toml poetry.toml ./
+# install deps without installing the project itself
 RUN poetry config virtualenvs.create false \
  && poetry install --no-interaction --no-ansi --no-root
 
-COPY app/ ./app/
-
-EXPOSE 4500
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "4500"]
+# now copy the source
+COPY . .
+EXPOSE 4000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "4000"]
