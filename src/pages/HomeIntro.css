@@ -1,44 +1,51 @@
+:root{
+  /* Adjust if your top header is taller/shorter */
+  --header-h: 72px;
+}
+
+html, body { height: 100%; margin: 0; }
+
+/* HERO */
 .hi-wrap {
   text-align: center;
-  padding: 6rem 2rem; /* Increased padding for more height */
-  min-height: 80vh; /* Makes section fill most of the screen */
+  /* tighter padding so everything fits one screen */
+  padding: 3.5rem 2rem;              /* was 6rem 2rem */
+  min-height: calc(100vh - var(--header-h));  /* was 80vh */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .hi-title {
-  font-size: 3rem; /* Bigger heading */
+  font-size: 3rem;
   font-weight: bold;
   color: #0b2545;
-  margin-bottom: 1.5rem;
-  margin-top: 0.5rem; /* reduce top space between logo and title */
+  margin: 0.6rem 0 1rem;            /* was top .5rem, bottom 1.5rem */
 }
 
 .hi-sub {
   font-size: 1.25rem;
   color: #667085;
-  max-width: 900px; /* Wider text block */
-  margin: 0 auto 3rem;
+  max-width: 900px;
+  margin: 0 auto 1.6rem;            /* was 3rem */
 }
 
-.hi-actions {
-  margin-bottom: 48.5px; /* Reduced by ~3% from original 50px */
-}
+.hi-actions { margin-bottom: 1.3rem; } /* was 48.5px */
 
 .hi-actions .btn--brand {
   font-size: 1.1rem;
   padding: 1rem 2rem;
 }
 
+/* icons row a bit tighter so it fits without scroll */
 .hi-folders {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 3rem;
-  margin-top: 2.85rem; /* reduced by ~5% */
+  gap: 2.5rem;                      /* was 3rem */
+  margin-top: 1.6rem;               /* was 2.85rem */
 }
-
 
 .hi-folder {
   display: flex;
@@ -46,38 +53,38 @@
   align-items: center;
   transition: transform 0.3s ease;
 }
-
-.hi-folder:hover {
-  transform: scale(1.1);
-}
+.hi-folder:hover { transform: scale(1.1); }
 
 .hi-folder__icon svg {
-  width: 94px; /* was ~78px → now 20% bigger */
+  width: 94px;                      /* keep your 20% bigger size */
   height: 94px;
 }
 
 .hi-folder__label {
   font-weight: bold;
   font-size: 1.1rem;
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;               /* was .75rem */
   color: #0b2545;
 }
 
 .hi-logo-box {
   width: 325px;
   height: 130px;
-  margin: 0 auto 0.5rem; /* reduced bottom space */
+  margin: 0 auto 0.25rem;           /* was 0.5rem */
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.hi-logo-box img { width: 100%; height: 100%; object-fit: contain; }
 
-.hi-logo-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.btn { text-decoration: none; }
+
+/* Keep single-line title on desktop; allow wrap on small screens */
+@media (max-width: 900px){
+  .hi-wrap { padding: 2.5rem 1.25rem; min-height: auto; }
 }
-
-.btn { 
-  text-decoration: none; 
+@media (min-width: 901px){
+  .hi-title { white-space: nowrap; }
+  /* eliminate phantom 1px scrollbars on desktop */
+  body { overflow-y: hidden; }
 }
