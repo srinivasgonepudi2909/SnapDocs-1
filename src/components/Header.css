@@ -1,7 +1,7 @@
 .header {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 24px;
+  padding: 18px 24px;
   background: #ffffffcc;
   backdrop-filter: blur(8px);
   border-bottom: 1px solid #e7eef8;
@@ -14,7 +14,7 @@
 }
 
 .brand__logo {
-  height: 44px; /* same height as previous text size */
+  height: 56px; /* same height as previous text size */
   width: auto;
 }
 
