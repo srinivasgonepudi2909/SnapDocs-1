@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./AuthModal.css";
 import { signup, login } from "../lib/auth";
 
 export default function AuthModal({ onClose }) {
@@ -8,6 +9,13 @@ export default function AuthModal({ onClose }) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
+  // Prevent page scroll while modal is open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = prev);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -16,14 +24,13 @@ export default function AuthModal({ onClose }) {
     try {
       if (tab === "signup") {
         await signup(email, password);
-        // ✅ Don’t log in. Ask them to log in now.
         setNotice("Account created. Please log in with your credentials.");
         setTab("login");
         return;
       } else {
         await login(email, password);
         onClose?.();
-        window.location.href = "/app"; // ✅ go to app home
+        window.location.href = "/app";
       }
     } catch (err) {
       setError(err.message || "Something went wrong");
@@ -31,25 +38,41 @@ export default function AuthModal({ onClose }) {
   };
 
   return (
-    <div className="modal">
+    <div className="modal" role="dialog" aria-modal="true">
       <div className="modal__card">
+        <button className="modal__close" onClick={onClose} aria-label="Close">
+          ×
+        </button>
+
         <div className="modal__tabs">
           <button
             className={`tab ${tab === "login" ? "is-active" : ""}`}
-            onClick={() => { setTab("login"); setError(""); setNotice(""); }}
+            onClick={() => {
+              setTab("login");
+              setError("");
+              setNotice("");
+            }}
           >
             Log in
           </button>
           <button
             className={`tab ${tab === "signup" ? "is-active" : ""}`}
-            onClick={() => { setTab("signup"); setError(""); setNotice(""); }}
+            onClick={() => {
+              setTab("signup");
+              setError("");
+              setNotice("");
+            }}
           >
             Sign up
           </button>
         </div>
 
-        {notice && <div style={{ color: "#0ea5e9", marginBottom: 8 }}>{notice}</div>}
-        {error && <div style={{ color: "#e11d48", marginBottom: 8 }}>{error}</div>}
+        {notice && (
+          <div style={{ color: "#0ea5e9", marginBottom: 8 }}>{notice}</div>
+        )}
+        {error && (
+          <div style={{ color: "#e11d48", marginBottom: 8 }}>{error}</div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <label className="field">

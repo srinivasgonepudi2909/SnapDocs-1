@@ -98,11 +98,13 @@ export default function HomeIntro() {
         <Folder icon={icons.other} label="Other Documents" />
       </div>
 
-      <AuthModal
-        open={authOpen}
-        onClose={() => setAuthOpen(false)}
-        onSuccess={goToApp}
-      />
+      {authOpen && (
+  <AuthModal
+    onClose={() => setAuthOpen(false)}
+    onSuccess={goToApp}
+  />
+)}
+
     </section>
   );
 }
