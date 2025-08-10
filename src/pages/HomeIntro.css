@@ -1,90 +1,122 @@
-:root{
-  /* Adjust if your top header is taller/shorter */
-  --header-h: 72px;
+/* Reset-ish + prevent Chrome image baseline gap */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+img {
+  display: block;
+  max-width: 100%;
 }
 
-html, body { height: 100%; margin: 0; }
+/* Root variables */
+:root {
+  --header-h: 72px; /* adjust to your actual header height if different */
+}
 
-/* HERO */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* HERO WRAPPER */
 .hi-wrap {
   text-align: center;
-  /* tighter padding so everything fits one screen */
-  padding: 3.5rem 2rem;              /* was 6rem 2rem */
-  min-height: calc(100vh - var(--header-h));  /* was 80vh */
+  padding: 3.25rem 2rem; /* reduced from 6rem for tighter fit */
+  min-height: calc(100dvh - var(--header-h)); /* fix Chrome viewport calc */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: clip; /* prevent box-shadow from adding scroll */
 }
 
+/* TITLE */
 .hi-title {
   font-size: 3rem;
   font-weight: bold;
   color: #0b2545;
-  margin: 0.6rem 0 1rem;            /* was top .5rem, bottom 1.5rem */
+  margin-bottom: 1.5rem;
+  margin-top: 0.6rem; /* tighter top space */
+  white-space: nowrap; /* single line on desktop */
+}
+@media (max-width: 900px) {
+  .hi-title {
+    white-space: normal; /* wrap on smaller screens */
+  }
 }
 
+/* SUBTITLE */
 .hi-sub {
   font-size: 1.25rem;
   color: #667085;
   max-width: 900px;
-  margin: 0 auto 1.6rem;            /* was 3rem */
+  margin: 0 auto 1.4rem;
 }
 
-.hi-actions { margin-bottom: 1.3rem; } /* was 48.5px */
-
+/* ACTIONS (button section) */
+.hi-actions {
+  margin-bottom: 1.1rem;
+}
 .hi-actions .btn--brand {
   font-size: 1.1rem;
   padding: 1rem 2rem;
 }
 
-/* icons row a bit tighter so it fits without scroll */
+/* FOLDER LIST */
 .hi-folders {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2.5rem;                      /* was 3rem */
-  margin-top: 1.6rem;               /* was 2.85rem */
+  gap: 2.4rem; /* reduced from 3rem */
+  margin-top: 1.35rem; /* reduced */
 }
 
+/* INDIVIDUAL FOLDER */
 .hi-folder {
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s ease;
 }
-.hi-folder:hover { transform: scale(1.1); }
-
+.hi-folder:hover {
+  transform: scale(1.1);
+}
 .hi-folder__icon svg {
-  width: 94px;                      /* keep your 20% bigger size */
+  width: 94px;
   height: 94px;
 }
-
 .hi-folder__label {
   font-weight: bold;
   font-size: 1.1rem;
-  margin-top: 0.6rem;               /* was .75rem */
+  margin-top: 0.75rem;
   color: #0b2545;
 }
 
+/* LOGO BOX */
 .hi-logo-box {
   width: 325px;
   height: 130px;
-  margin: 0 auto 0.25rem;           /* was 0.5rem */
+  margin: 0 auto 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.hi-logo-box img { width: 100%; height: 100%; object-fit: contain; }
-
-.btn { text-decoration: none; }
-
-/* Keep single-line title on desktop; allow wrap on small screens */
-@media (max-width: 900px){
-  .hi-wrap { padding: 2.5rem 1.25rem; min-height: auto; }
+.hi-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block; /* prevent Chrome extra gap */
 }
-@media (min-width: 901px){
-  .hi-title { white-space: nowrap; }
-  /* eliminate phantom 1px scrollbars on desktop */
-  body { overflow-y: hidden; }
+
+/* BUTTON RESET */
+.btn {
+  text-decoration: none;
+}
+
+/* Optional: hide phantom scroll on large screens */
+@media (min-width: 901px) {
+  body {
+    overflow-y: hidden;
+  }
 }
