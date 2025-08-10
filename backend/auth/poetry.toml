@@ -1,5 +1,0 @@
-[virtualenvs]
-create = false
-
-[poetry]
-package-mode = false
