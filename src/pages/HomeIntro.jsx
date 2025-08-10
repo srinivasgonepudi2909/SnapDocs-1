@@ -1,81 +1,79 @@
 import React from "react";
 import "./HomeIntro.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.png"; // ✅ your logo
 
-const HomeIntro = () => {
+function Folder({ icon, label }) {
+  return (
+    <div className="hi-folder">
+      <div className="hi-folder__icon">{icon}</div>
+      <div className="hi-folder__label">{label}</div>
+    </div>
+  );
+}
+
+// ✅ Old icons from your previous code
+const icons = {
+  study: (
+    <svg viewBox="0 0 64 64">
+      <path fill="#f6b93b" d="M6 20h22l4 4h26v24a6 6 0 0 1-6 6H12a6 6 0 0 1-6-6V20z" />
+      <rect x="14" y="28" width="21" height="14" rx="3" fill="#f9d27a" />
+    </svg>
+  ),
+  photos: (
+    <svg viewBox="0 0 64 64">
+      <rect x="8" y="14" width="48" height="36" rx="6" fill="#68b0ff" />
+      <path d="M20 40l8-10 6 8 6-6 6 8H20z" fill="#9fd0ff" />
+      <rect x="18" y="20" width="8" height="6" rx="3" fill="#e6f2ff" />
+    </svg>
+  ),
+  property: (
+    <svg viewBox="0 0 64 64">
+      <rect x="10" y="18" width="44" height="30" rx="6" fill="#7a6cf5" />
+      <path d="M18 40h12v8H18zM34 36h12v12H34z" fill="#b9b2fb" />
+      <path d="M28 22h20" stroke="#d9d5fe" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  ),
+  ids: (
+    <svg viewBox="0 0 64 64">
+      <rect x="8" y="18" width="48" height="28" rx="6" fill="#17c3a1" />
+      <rect x="14" y="24" width="16" height="16" rx="3" fill="#a9f0df" />
+      <rect x="34" y="28" width="16" height="4" rx="2" fill="#a9f0df" />
+      <rect x="34" y="36" width="12" height="4" rx="2" fill="#a9f0df" />
+    </svg>
+  ),
+  other: (
+    <svg viewBox="0 0 64 64">
+      <rect x="10" y="18" width="44" height="30" rx="6" fill="#f9c76b" />
+      <rect x="20" y="26" width="24" height="14" rx="3" fill="#ffe2a8" />
+      <path d="M24 44h16" stroke="#ffdfa0" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  ),
+};
+
+export default function HomeIntro() {
   return (
     <section className="hi-wrap">
-      {/* Logo */}
       <div className="hi-logo-box">
         <img src={logo} alt="SnapDocs Logo" />
       </div>
 
-      {/* Title */}
-      <h1 className="hi-title">Access Your Documents Anytime, Anywhere</h1>
-
-      {/* Subtitle */}
+      <h1 className="hi-title">Access Your Documents<br />Anytime, Anywhere</h1>
       <p className="hi-sub">
-        Create folders like <strong>Study Certificates</strong>,{" "}
-        <strong>Family Photos</strong>, <strong>Property Docs</strong>, and
-        upload securely. Access from any device—anywhere in the world.
+        Create folders like <b>Study Certificates</b>, <b>Family Photos</b>, <b>Property Docs</b>,
+        and upload securely. Access from any device—anywhere in the world.
       </p>
 
-      {/* Upload Button */}
       <div className="hi-actions">
-        <a href="#upload" className="btn btn--brand">
-          Upload Documents
-        </a>
+        <a className="btn btn--brand" href="#upload">Upload Documents</a>
       </div>
 
-      {/* Folder Icons */}
-      <div className="hi-folders" style={{ marginTop: "2.85rem" }}>
-        <div className="hi-folder">
-          <div className="hi-folder__icon">
-            <svg viewBox="0 0 24 24" width="90" height="90" fill="#F4B400">
-              <path d="M10 4H2v16h20V6H12l-2-2z" />
-            </svg>
-          </div>
-          <div className="hi-folder__label">Study Certificates</div>
-        </div>
-
-        <div className="hi-folder">
-          <div className="hi-folder__icon">
-            <svg viewBox="0 0 24 24" width="90" height="90" fill="#4285F4">
-              <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14l7-3 7 3 4-1z" />
-            </svg>
-          </div>
-          <div className="hi-folder__label">Family Photos</div>
-        </div>
-
-        <div className="hi-folder">
-          <div className="hi-folder__icon">
-            <svg viewBox="0 0 24 24" width="90" height="90" fill="#A142F4">
-              <path d="M4 4h16v16H4z" />
-            </svg>
-          </div>
-          <div className="hi-folder__label">Property Docs</div>
-        </div>
-
-        <div className="hi-folder">
-          <div className="hi-folder__icon">
-            <svg viewBox="0 0 24 24" width="90" height="90" fill="#34A853">
-              <path d="M2 4h20v16H2z" />
-            </svg>
-          </div>
-          <div className="hi-folder__label">IDs</div>
-        </div>
-
-        <div className="hi-folder">
-          <div className="hi-folder__icon">
-            <svg viewBox="0 0 24 24" width="90" height="90" fill="#F4B400">
-              <path d="M2 6h20v12H2z" />
-            </svg>
-          </div>
-          <div className="hi-folder__label">Other Documents</div>
-        </div>
+      <div className="hi-folders">
+        <Folder icon={icons.study} label="Study Certificates" />
+        <Folder icon={icons.photos} label="Family Photos" />
+        <Folder icon={icons.property} label="Property Docs" />
+        <Folder icon={icons.ids} label="IDs" />
+        <Folder icon={icons.other} label="Other Documents" />
       </div>
     </section>
   );
-};
-
-export default HomeIntro;
+}

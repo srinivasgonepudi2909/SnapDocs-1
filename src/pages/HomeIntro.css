@@ -52,8 +52,8 @@
 }
 
 .hi-folder__icon svg {
-  width: 90px; /* Larger icons */
-  height: 90px;
+  width: 94px; /* was ~78px → now 20% bigger */
+  height: 94px;
 }
 
 .hi-folder__label {
