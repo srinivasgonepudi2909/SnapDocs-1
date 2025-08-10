@@ -23,18 +23,7 @@ export default function Header() {
     setActive("signup");
     openAuth("signup");
   };
-
-  // inside HomeIntro component
-useEffect(() => {
-  const onOpenAuth = (e) => {
-    // e.detail.mode === "login" or "signup"
-    // set the correct tab if your modal supports it
-    setAuthOpen(true);
-  };
-  window.addEventListener("open-auth", onOpenAuth);
-  return () => window.removeEventListener("open-auth", onOpenAuth);
-}, []);
-
+  
 
   return (
     <header className="header">
