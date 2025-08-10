@@ -1,5 +1,6 @@
 import React from "react";
 import "./HomeIntro.css";
+import logo from "../assets/logo.png"; // ✅ Import your logo
 
 function Folder({ icon, label }) {
   return (
@@ -51,6 +52,11 @@ const icons = {
 export default function HomeIntro() {
   return (
     <section className="hi-wrap">
+      {/* ✅ New Logo Box */}
+      <div className="hi-logo-box">
+        <img src={logo} alt="SnapDocs Logo" />
+      </div>
+
       <h1 className="hi-title">Access Your Documents<br/>Anytime, Anywhere</h1>
       <p className="hi-sub">
         Create folders like <b>Study Certificates</b>, <b>Family Photos</b>, <b>Property Docs</b>,

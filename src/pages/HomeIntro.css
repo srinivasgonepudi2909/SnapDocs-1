@@ -56,3 +56,18 @@
   margin-top: 0.75rem;
   color: #0b2545;
 }
+
+.hi-logo-box {
+  width: 250px;   /* match the rectangle */
+  height: 100px;  /* match the rectangle */
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hi-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
