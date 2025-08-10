@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./HomeIntro.css";
 import logo from "../assets/logo.png";
-import AuthModal from "../components/AuthModal.jsx";
-import { isAuthed, me } from "../lib/auth";
 
 function Folder({ icon, label }) {
   return (
@@ -53,21 +51,9 @@ const icons = {
 };
 
 export default function HomeIntro() {
-  const [authOpen, setAuthOpen] = useState(false);
-
-  // Optional: validate token on load (silent)
-  useEffect(() => {
-    if (isAuthed()) me().catch(() => {/* ignore */});
-  }, []);
-
-  const goToApp = () => {
-    window.location.href = "/app"; // replace with router navigation if you add react-router
-  };
-
   const onUploadClick = (e) => {
     e.preventDefault();
-    if (isAuthed()) goToApp();
-    else setAuthOpen(true);
+    window.open("/app", "_blank", "noopener"); // open the app in a new tab
   };
 
   return (
@@ -85,7 +71,12 @@ export default function HomeIntro() {
       </p>
 
       <div className="hi-actions">
-        <a className="btn btn--brand" href="#upload" onClick={onUploadClick} aria-label="Upload Documents">
+        <a
+          className="btn btn--brand"
+          href="#upload"
+          onClick={onUploadClick}
+          aria-label="Upload Documents"
+        >
           Upload Documents
         </a>
       </div>
@@ -97,14 +88,6 @@ export default function HomeIntro() {
         <Folder icon={icons.ids} label="IDs" />
         <Folder icon={icons.other} label="Other Documents" />
       </div>
-
-      {authOpen && (
-  <AuthModal
-    onClose={() => setAuthOpen(false)}
-    onSuccess={goToApp}
-  />
-)}
-
     </section>
   );
 }
