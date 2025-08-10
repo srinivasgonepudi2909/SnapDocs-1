@@ -35,7 +35,15 @@
 }
 
 .btn--ghost {
-  border-color: #e7eef8;
+  border-color: #1e66ff;
+  color: #1e66ff;
+  background: transparent;
+  padding: 10px 20px; /* reduced from 14px 24px */
+}
+
+.btn--ghost:hover {
+  background: #1e66ff;
+  color: #fff;
 }
 
 .btn--brand {
