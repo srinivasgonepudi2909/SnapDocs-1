@@ -51,16 +51,21 @@ html, body { height: 100%; margin: 0; }
 }
 
 /* SUBTITLE — remove gap to the button + move up with title */
+/* SUBTITLE — now with 4% gap to the button */
 .hi-sub {
   font-size: 1.25rem;
   color: #667085;
   max-width: 900px;
-  margin: 0 auto 0.25rem;           /* almost no gap to Upload button */
-  transform: translateY(-2vh);      /* ⬆️ move subtitle up to match title */
+  margin: 0 auto 4vh;      /* ⬆ gap between subtitle and button */
+  transform: translateY(-2vh);
 }
 @media (max-width: 900px) {
-  .hi-sub { transform: none; }
+  .hi-sub {
+    transform: none;
+    margin-bottom: 2rem; /* smaller gap on mobile */
+  }
 }
+
 
 /* ACTIONS (keep bottom margin so icons stay perfect) */
 .hi-actions { margin-bottom: 1.1rem; }
