@@ -1,46 +1,58 @@
 .hi-wrap {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem; /* Increased padding for more height */
+  min-height: 80vh; /* Makes section fill most of the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hi-title {
-  font-size: 2.5rem;
+  font-size: 3rem; /* Bigger heading */
   font-weight: bold;
   color: #0b2545;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .hi-sub {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: #667085;
-  max-width: 700px;
-  margin: 0 auto 2rem;
+  max-width: 900px; /* Wider text block */
+  margin: 0 auto 3rem;
 }
 
 .hi-actions .btn--brand {
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
 }
 
 .hi-folders {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 3rem;
+  margin-top: 3rem;
 }
 
 .hi-folder {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease;
 }
 
-.hi-folder__icon {
-  margin-bottom: 0.5rem;
+.hi-folder:hover {
+  transform: scale(1.1);
+}
+
+.hi-folder__icon svg {
+  width: 90px; /* Larger icons */
+  height: 90px;
 }
 
 .hi-folder__label {
   font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 0.75rem;
   color: #0b2545;
 }
