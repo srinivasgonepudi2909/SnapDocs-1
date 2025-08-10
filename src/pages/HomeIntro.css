@@ -58,12 +58,16 @@
 }
 
 .hi-logo-box {
-  width: 325px;   /* increased by 30% */
-  height: 130px;  /* increased by 30% */
-  margin: 0 auto 2rem;
+  width: 325px;
+  height: 130px;
+  margin: 0 auto 0.5rem; /* reduced bottom space */
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hi-title {
+  margin-top: 0.5rem; /* reduce top space between logo and title */
 }
 
 .hi-logo-box img {
