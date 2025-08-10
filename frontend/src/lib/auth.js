@@ -1,44 +1,38 @@
 const KEY = "snapdocs_token";
+const API = import.meta.env.VITE_API_BASE;
 
-export function setToken(token) {
-  localStorage.setItem(KEY, token);
-}
-export function getToken() {
-  return localStorage.getItem(KEY);
-}
-export function clearToken() {
-  localStorage.removeItem(KEY);
-}
-export function isAuthed() {
-  const t = getToken();
-  return !!t && t.length > 10;
-}
+export const setToken = (t) => localStorage.setItem(KEY, t);
+export const getToken = () => localStorage.getItem(KEY) || "";
+export const clearToken = () => localStorage.removeItem(KEY);
+export const isAuthed = () => !!getToken();
 
-export async function api(path, { method = "GET", body, headers } = {}) {
-  const token = getToken();
-  const res = await fetch(`${import.meta.env.VITE_API_BASE}${path}`, {
+async function request(path, { method = "GET", body, headers } = {}) {
+  const res = await fetch(`${API}${path}`, {
     method,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
       ...headers,
     },
     body: body ? JSON.stringify(body) : undefined,
   });
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(text || res.statusText);
-  }
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.detail || data.error || "Request failed");
+  return data;
 }
 
 export async function signup(email, password) {
-  const data = await api("/auth/signup", { method: "POST", body: { email, password } });
+  const data = await request("/auth/signup", { method: "POST", body: { email, password } });
   setToken(data.token);
   return data.user;
 }
+
 export async function login(email, password) {
-  const data = await api("/auth/login", { method: "POST", body: { email, password } });
+  const data = await request("/auth/login", { method: "POST", body: { email, password } });
   setToken(data.token);
   return data.user;
+}
+
+export async function me() {
+  return request("/auth/me");
 }
