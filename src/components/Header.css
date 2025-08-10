@@ -1,0 +1,15 @@
+.header{
+  position: sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; background:#ffffffcc; backdrop-filter:blur(8px);
+  border-bottom:1px solid #e7eef8;
+}
+.brand{display:flex; align-items:center; gap:12px; text-decoration:none;}
+.brand__logo{width:44px; height:44px; object-fit:contain;}
+.brand__name{font-size:32px; font-weight:800; color:#263e6a; letter-spacing:.2px;}
+.actions{display:flex; gap:12px;}
+.btn{padding:10px 16px; border-radius:12px; font-weight:600; border:1px solid transparent; background:transparent; cursor:pointer; transition:all .2s;}
+.btn--ghost{border-color:#e7eef8;}
+.btn--brand{background:#1e66ff; color:#fff; border-color:#1e66ff; box-shadow:0 6px 18px rgba(30,102,255,.24);}
+.btn:hover{transform:translateY(-1px);}
+.btn--brand:hover{background:#154acc; border-color:#154acc;}
