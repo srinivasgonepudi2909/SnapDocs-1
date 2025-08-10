@@ -1,3 +1,4 @@
+// src/lib/auth.js
 const KEY = "snapdocs_token";
 const API = import.meta.env.VITE_API_BASE;
 
@@ -21,18 +22,20 @@ async function request(path, { method = "GET", body, headers } = {}) {
   return data;
 }
 
+// ✅ Sign up: DO NOT auto-login. Just create the user.
 export async function signup(email, password) {
-  const data = await request("/auth/signup", { method: "POST", body: { email, password } });
-  setToken(data.token);
-  return data.user;
+  await request("/auth/signup", { method: "POST", body: { email, password } });
+  return true;
 }
 
+// ✅ Login: store token and return user
 export async function login(email, password) {
   const data = await request("/auth/login", { method: "POST", body: { email, password } });
   setToken(data.token);
   return data.user;
 }
 
+// Optional: check current user (used by your UI)
 export async function me() {
   return request("/auth/me");
 }
