@@ -58,8 +58,8 @@
 }
 
 .hi-logo-box {
-  width: 250px;   /* match the rectangle */
-  height: 100px;  /* match the rectangle */
+  width: 325px;   /* increased by 30% */
+  height: 130px;  /* increased by 30% */
   margin: 0 auto 2rem;
   display: flex;
   align-items: center;
@@ -71,3 +71,4 @@
   height: 100%;
   object-fit: contain;
 }
+
