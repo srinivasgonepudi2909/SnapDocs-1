@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "snapdocs-backend"
+name = "backend"
 version = "0.1.0"
 description = "SnapDocs backend (FastAPI + MongoDB)"
-authors = ["You <you@example.com>"]
+authors = ["You vasu@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
