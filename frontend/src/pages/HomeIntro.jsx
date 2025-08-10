@@ -105,13 +105,6 @@ export default function HomeIntro() {
           <Folder icon={icons.other} label="Other Documents" />
         </div>
       </section>
-
-      {/* ✅ the popup (no change to your main layout) */}
-      <AuthModal
-        open={authOpen}
-        onClose={() => setAuthOpen(false)}
-        initialMode={initialMode}
-      />
     </>
   );
 }
