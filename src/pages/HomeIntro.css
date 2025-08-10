@@ -36,8 +36,9 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 3rem;
-  margin-top: 3rem;
+  margin-top: 2.85rem; /* reduced by ~5% */
 }
+
 
 .hi-folder {
   display: flex;
