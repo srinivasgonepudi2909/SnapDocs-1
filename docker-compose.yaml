@@ -18,8 +18,27 @@ services:
     networks:
       - snapdocs_net
 
+  auth:
+    build: ./auth
+    restart: unless-stopped
+    # Prefer putting these in ./auth/.env and using env_file instead
+    environment:
+      MONGO_URI: mongodb://mongo:27017/snapdocs
+      MONGO_DB: snapdocs
+      JWT_SECRET: "replace-with-strong-secret"
+      JWT_TTL_MIN: "120"
+      # Set this to your real site origin (scheme+host+port)
+      FRONTEND_ORIGIN: "http://localhost:8080"
+    ports:
+      - "4500:4000"           # external 4500 -> container 4000
+    depends_on:
+      - mongo
+    networks:
+      - snapdocs_net
+
   backend:
     build: ./backend
+    restart: unless-stopped
     env_file:
       - ./backend/.env
     depends_on:
@@ -31,8 +50,10 @@ services:
 
   frontend:
     build: ./frontend
+    restart: unless-stopped
     depends_on:
       - backend
+      - auth
     ports:
       - "8080:80"
     networks:
