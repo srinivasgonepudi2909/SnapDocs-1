@@ -2,7 +2,7 @@
 name = "backend"
 version = "0.1.0"
 description = "SnapDocs backend (FastAPI + MongoDB)"
-authors = ["You vasu@gmail.com>"]
+authors = ["Srinivas Gonepudi <srigonepudi@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
