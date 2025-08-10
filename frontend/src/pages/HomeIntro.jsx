@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HomeIntro.css";
 import logo from "../assets/logo.png";
-import AuthModal from "../components/AuthModal.jsx"; // ✅ added
 
 function Folder({ icon, label }) {
   return (
