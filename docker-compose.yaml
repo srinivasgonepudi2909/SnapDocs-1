@@ -11,37 +11,45 @@ services:
   mongo:
     image: mongo:7
     restart: always
-    ports:
-      - "27017:27017"
+    ports: ["27017:27017"]
     volumes:
       - mongo_data:/data/db
     networks: [snapdocs_net]
 
-  # AUTH microservice
   auth:
     build:
-      context: ./backend/auth         # <— IMPORTANT
-      dockerfile: Dockerfile
-    env_file:
-      - ./backend/auth/.env           # <— contains MONGO_URI, JWT_SECRET, CORS
+      context: ./backend/auth              # <-- was ./auth
+      dockerfile: Dockerfile               # adjust if named differently
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://mongo:27017/snapdocs
+      MONGO_DB: snapdocs
+      JWT_SECRET: "replace-with-strong-secret"
+      JWT_TTL_MIN: "120"
+      FRONTEND_ORIGIN: "http://54.89.184.30:8080"  # your real origin
     ports:
-      - "4500:4500"                   # <— expose auth API
-    depends_on: [mongo]
+      - "4500:4000"
+    depends_on:
+      - mongo
     networks: [snapdocs_net]
 
-  # MAIN backend (your app API)
   backend:
     build: ./backend
+    restart: unless-stopped
     env_file:
       - ./backend/.env
+    depends_on:
+      - mongo
     ports:
-      - "4000:4000"                   # <— expose main API
-    depends_on: [mongo]
+      - "4000:4000"
     networks: [snapdocs_net]
 
   frontend:
     build: ./frontend
-    depends_on: [backend, auth]
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - auth
     ports:
       - "8080:80"
     networks: [snapdocs_net]
