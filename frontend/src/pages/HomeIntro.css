@@ -103,3 +103,29 @@ html, body { height: 100%; margin: 0; }
 @media (min-width: 901px) {
   body { overflow-y: hidden; }
 }
+
+.auth-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.25);
+  display: grid; place-items: center; z-index: 50;
+}
+.auth-modal {
+  width: 420px; max-width: 92vw; background: #fff; border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12); padding: 18px 18px 22px; position: relative;
+}
+.auth-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.auth-tab {
+  flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid #e5e7eb; background: #fff;
+}
+.auth-tab.is-active { background: #eff6ff; border-color: #bfdbfe; }
+.auth-form { display: grid; gap: 10px; }
+.auth-form label { font-weight: 600; color: #0b2545; }
+.auth-form input {
+  border: 1px solid #e5e7eb; padding: 10px 12px; border-radius: 12px; outline: none;
+}
+.auth-error { color: #b91c1c; font-size: .9rem; }
+.auth-ok    { color: #047857; font-size: .9rem; }
+.auth-close {
+  position: absolute; right: 10px; top: 6px; border: none; background: transparent;
+  font-size: 22px; line-height: 1; cursor: pointer; color: #6b7280;
+}
+

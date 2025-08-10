@@ -1,30 +1,32 @@
 import React, { useState } from "react";
-import "./Header.css";
-import logo from "../assets/logo.png"; // path to your logo image
+import AuthModal from "./AuthModal.jsx";
 
 export default function Header() {
-  // "signup" is default active
-  const [active, setActive] = useState("signup");
+  const [open, setOpen] = useState(false);
+  const [initialTab, setInitialTab] = useState("login");
+
+  const openLogin = () => { setInitialTab("login"); setOpen(true); };
+  const openSignup = () => { setInitialTab("signup"); setOpen(true); };
+  const onSuccess = () => { /* nothing: new tab opens inside modal */ };
 
   return (
-    <header className="header">
-      <a className="brand" href="#">
-        <img className="brand__logo" src={logo} alt="SnapDocs logo" />
-      </a>
-      <div className="actions">
-        <button
-          onClick={() => setActive("login")}
-          className={`btn ${active === "login" ? "btn--brand" : "btn--ghost"}`}
-        >
-          Log in
-        </button>
-        <button
-          onClick={() => setActive("signup")}
-          className={`btn ${active === "signup" ? "btn--brand" : "btn--ghost"}`}
-        >
-          Sign up
-        </button>
-      </div>
-    </header>
+    <>
+      <header className="header">
+        {/* left: logo ... */}
+        <div className="header-actions">
+          <button className="btn btn--ghost" onClick={openLogin}>Log in</button>
+          <button className="btn btn--brand" onClick={openSignup}>Sign up</button>
+        </div>
+      </header>
+
+      {open && (
+        <AuthModal
+          open={open}
+          onClose={() => setOpen(false)}
+          onSuccess={onSuccess}
+          initialTab={initialTab}
+        />
+      )}
+    </>
   );
 }

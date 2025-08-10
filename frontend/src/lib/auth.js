@@ -1,41 +1,44 @@
-// src/lib/auth.js
-const KEY = "snapdocs_token";
-const API = import.meta.env.VITE_API_BASE;
+const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-export const setToken = (t) => localStorage.setItem(KEY, t);
-export const getToken = () => localStorage.getItem(KEY) || "";
-export const clearToken = () => localStorage.removeItem(KEY);
-export const isAuthed = () => !!getToken();
+export function setToken(t) { localStorage.setItem("token", t); }
+export function getToken() { return localStorage.getItem("token"); }
+export function clearToken() { localStorage.removeItem("token"); }
 
-async function request(path, { method = "GET", body, headers } = {}) {
-  const res = await fetch(`${API}${path}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
-      ...headers,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.detail || data.error || "Request failed");
-  return data;
+function headers(extra = {}) {
+  const h = { ...extra };
+  const t = getToken();
+  if (t) h.Authorization = `Bearer ${t}`;
+  return h;
 }
 
-// ✅ Sign up: DO NOT auto-login. Just create the user.
-export async function signup(email, password) {
-  await request("/auth/signup", { method: "POST", body: { email, password } });
-  return true;
-}
-
-// ✅ Login: store token and return user
 export async function login(email, password) {
-  const data = await request("/auth/login", { method: "POST", body: { email, password } });
+  const res = await fetch(`${API}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...headers() },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail || "Login failed");
+  const data = await res.json();
   setToken(data.token);
   return data.user;
 }
 
-// Optional: check current user (used by your UI)
+export async function signup({ username, phone, email, password }) {
+  const res = await fetch(`${API}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, phone, email, password }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail || "Signup failed");
+  return res.json(); // {ok, message}
+}
+
 export async function me() {
-  return request("/auth/me");
+  const res = await fetch(`${API}/auth/me`, { headers: headers() });
+  if (!res.ok) throw new Error("Not authed");
+  return res.json();
+}
+
+export function isAuthed() {
+  return !!getToken();
 }

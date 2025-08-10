@@ -1,22 +1,57 @@
-import os, jwt, datetime
-from fastapi import HTTPException, status
+from fastapi import APIRouter, HTTPException, Depends, Header
+from bson import ObjectId
+from datetime import datetime, timedelta
 from passlib.hash import bcrypt
+from jose import jwt
+from .db import db
+from .schemas import SignupIn, LoginIn, UserOut, TokenOut
+from pydantic import EmailStr
 
-JWT_SECRET = os.getenv("JWT_SECRET", "dev")
-JWT_EXPIRE_MIN = int(os.getenv("JWT_EXPIRE_MIN", "10080"))
+router = APIRouter(prefix="/auth", tags=["auth"])
 
-def hash_password(p: str) -> str:
-    return bcrypt.hash(p)
+users = db["users"]
+JWT_SECRET = "change-me"  # keep your env/secret
+JWT_EXPIRE_MIN = 60 * 24
 
-def verify_password(p: str, hashed: str) -> bool:
-    return bcrypt.verify(p, hashed)
+def _user_to_out(u) -> UserOut:
+    return UserOut(
+        id=str(u["_id"]),
+        email=u["email"],
+        username=u.get("username", ""),
+        phone=u.get("phone", ""),
+    )
 
-def make_token(user_id: str, email: str) -> str:
-    exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=JWT_EXPIRE_MIN)
-    return jwt.encode({"sub": user_id, "email": email, "exp": exp}, JWT_SECRET, algorithm="HS256")
+@router.post("/signup")
+async def signup(payload: SignupIn):
+    email = payload.email.lower().strip()
+    if await users.find_one({"email": email}):
+        raise HTTPException(status_code=409, detail="Email already registered")
 
-def decode_token(token: str) -> dict:
-    try:
-        return jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    doc = {
+        "email": email,
+        "password": bcrypt.hash(payload.password),
+        "username": payload.username.strip(),
+        "phone": payload.phone.strip(),
+        "created_at": datetime.utcnow(),
+    }
+    await users.insert_one(doc)
+    # Do not issue a token here; ask the user to login.
+    return {"ok": True, "message": "Account created. Please log in."}
+
+@router.post("/login", response_model=TokenOut)
+async def login(payload: LoginIn):
+    email = payload.email.lower().strip()
+    u = await users.find_one({"email": email})
+    if not u or not bcrypt.verify(payload.password, u["password"]):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    claims = {
+        "sub": str(u["_id"]),
+        "email": u["email"],
+        "exp": datetime.utcnow() + timedelta(minutes=JWT_EXPIRE_MIN),
+    }
+    token = jwt.encode(claims, JWT_SECRET, algorithm="HS256")
+
+    return TokenOut(user=_user_to_out(u), token=token)
+
+# keep your /auth/me & get_current_user dependency unchanged
