@@ -19,7 +19,7 @@ services:
       - snapdocs_net
 
   auth:
-    build: ./auth
+    build: .backend/auth
     restart: unless-stopped
     # Prefer putting these in ./auth/.env and using env_file instead
     environment:
