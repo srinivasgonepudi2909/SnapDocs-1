@@ -1,38 +1,36 @@
-# -----------------------------
-# Stage 1: Build the React app
-# -----------------------------
+# Dockerfile for SnapDocs React app
+# ----------------------------------
+
+# Stage 1: Build React app with Vite
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copy only dependency files first for better caching
-COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
-# Choose your installer (npm by default)
-RUN if [ -f package-lock.json ]; then npm ci; \
-    elif [ -f pnpm-lock.yaml ]; then corepack enable && pnpm i --frozen-lockfile; \
-    elif [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-    else npm i; fi
+# Copy package files
+COPY package.json package-lock.json* ./
 
-# Copy the rest and build
+# Install dependencies
+RUN npm install
+
+# Copy source code
 COPY . .
-# Build for Vite -> dist (CRA users: set REACT_BUILD_DIR=build at build time)
-ARG REACT_BUILD_DIR=dist
-ENV REACT_BUILD_DIR=${REACT_BUILD_DIR}
-RUN npm run build || yarn build || (corepack enable && pnpm build)
 
-# ------------------------------------
-# Stage 2: Serve static files via Nginx
-# ------------------------------------
+# Build the app (Vite outputs to dist/)
+RUN npm run build
+
+# Stage 2: Serve with Nginx
 FROM nginx:1.27-alpine
 
-# Clean default config and add our SPA config
+# Remove default Nginx config
 RUN rm -f /etc/nginx/conf.d/default.conf
+
+# Add custom Nginx config for SPA routing
 COPY deploy/nginx.conf /etc/nginx/nginx.conf
 
-# Copy built assets
-ARG REACT_BUILD_DIR=dist
-COPY --from=build /app/${REACT_BUILD_DIR} /usr/share/nginx/html
+# Copy build output from Stage 1
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Health + permissions
-HEALTHCHECK CMD wget -qO- http://127.0.0.1/ || exit 1
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
