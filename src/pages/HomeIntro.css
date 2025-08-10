@@ -12,6 +12,7 @@
   font-weight: bold;
   color: #0b2545;
   margin-bottom: 1.5rem;
+  margin-top: 0.5rem; /* reduce top space between logo and title */
 }
 
 .hi-sub {
@@ -19,6 +20,10 @@
   color: #667085;
   max-width: 900px; /* Wider text block */
   margin: 0 auto 3rem;
+}
+
+.hi-actions {
+  margin-bottom: 48.5px; /* Reduced by ~3% from original 50px */
 }
 
 .hi-actions .btn--brand {
@@ -66,15 +71,12 @@
   justify-content: center;
 }
 
-.hi-title {
-  margin-top: 0.5rem; /* reduce top space between logo and title */
-}
-
 .hi-logo-box img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.btn { text-decoration: none; }
-
+.btn { 
+  text-decoration: none; 
+}
