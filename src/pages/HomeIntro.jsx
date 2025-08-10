@@ -1,5 +1,5 @@
 import React from "react";
-import "./homeIntro.css";
+import "./homeintro.css";
 
 function Folder({ icon, label }) {
   return (
