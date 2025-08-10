@@ -6,7 +6,7 @@ git pull
 
 # Step 2: Build Docker image
 echo "🐳 Building Docker image..."
-docker build -t snapdocs-web:1.0.0 .
+docker build --no-cache -t snapdocs-web:1.0.0 .
 
 # Step 3: Stop and remove all running containers (use with caution!)
 echo "🧹 Removing all containers..."
