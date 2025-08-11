@@ -1,36 +1,15 @@
-.am-backdrop {
-  position: fixed; inset: 0; background: rgba(0,0,0,.4);
-  display: grid; place-items: center; z-index: 1000;
-}
-.am-modal {
-  width: min(420px, 90vw);
-  background: #fff; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,.2);
-  overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
-.am-head {
-  display: flex; align-items: center; gap: 8px; padding: 12px 12px 0 12px; position: relative;
-}
-.am-tab {
-  border: none; background: transparent; padding: 12px 14px; font-weight: 600;
-  color: #667085; cursor: pointer; border-bottom: 2px solid transparent;
-}
+.am-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: grid; place-items: center; z-index: 1000; }
+.am-modal { width: min(420px, 90vw); background: #fff; border-radius: 16px; box-shadow: 0 20px 80px rgba(0,0,0,.2); overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+.am-head { display: flex; align-items: center; gap: 8px; padding: 12px 12px 0 12px; position: relative; }
+.am-tab { border: none; background: transparent; padding: 12px 14px; font-weight: 600; color: #667085; cursor: pointer; border-bottom: 2px solid transparent; }
 .am-tab--active { color: #0b2545; border-bottom-color: #1e66ff; }
-.am-x {
-  position: absolute; right: 10px; top: 6px; border: none; background: transparent;
-  font-size: 22px; line-height: 1; cursor: pointer; color: #667085;
-}
+.am-x { position: absolute; right: 10px; top: 6px; border: none; background: transparent; font-size: 22px; line-height: 1; cursor: pointer; color: #667085; }
 .am-body { padding: 16px 16px 20px 16px; }
 .am-field { display: grid; gap: 6px; margin: 12px 0; }
 .am-field label { font-size: 13px; color: #344054; }
-.am-field input {
-  padding: 10px 12px; border-radius: 10px; border: 1px solid #e5e7eb;
-  outline: none;
-}
+.am-field input { padding: 10px 12px; border-radius: 10px; border: 1px solid #e5e7eb; outline: none; }
 .am-field input:focus { border-color: #1e66ff; box-shadow: 0 0 0 2px rgba(30,102,255,.15); }
-.am-primary {
-  width: 100%; padding: 12px 14px; border-radius: 12px; border: none; cursor: pointer;
-  background: #1e66ff; color: white; font-weight: 700; margin-top: 8px;
-}
+.am-primary { width: 100%; padding: 12px 14px; border-radius: 12px; border: none; cursor: pointer; background: #1e66ff; color: white; font-weight: 700; margin-top: 8px; }
 .am-primary[disabled] { opacity: .6; cursor: not-allowed; }
 .am-error { color: #b42318; background: #fee4e2; border: 1px solid #fecdca; padding: 8px 10px; border-radius: 10px; margin-top: 6px; }
 .am-ok { color: #027a48; background: #ecfdf3; border: 1px solid #a6f4c5; padding: 8px 10px; border-radius: 10px; margin-top: 6px; }
