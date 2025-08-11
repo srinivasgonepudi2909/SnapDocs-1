@@ -39,7 +39,7 @@ export default function AuthModal({ open, initialMode = "signup", onClose }) {
       } else {
         const res = await login({ username, password });
         setOk(`Welcome ${res.user.username}! Login successful.`);
-        // OPTIONAL: notify app of login success
+        // optional: let app know user logged in
         window.dispatchEvent(new CustomEvent("auth-success", { detail: res.user }));
         setTimeout(() => onClose?.(), 700);
       }
@@ -53,7 +53,7 @@ export default function AuthModal({ open, initialMode = "signup", onClose }) {
   if (!open) return null;
 
   return (
-    <div className="am-backdrop" onClick={() => !loading && onClose?.()}>
+    <div className="am-backdrop" role="dialog" aria-modal="true" id="auth-modal" onClick={() => !loading && onClose?.()}>
       <div className="am-modal" onClick={(e) => e.stopPropagation()}>
         <div className="am-head">
           <button

@@ -41,13 +41,14 @@ services:
     networks:
       - docu_net
 
-  frontend:
+   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: "http://54.159.9.221:8000"
     image: snap:1.1
     container_name: snap-frontend
-    # frontend is static via nginx; it still joins the same network to talk to backend if needed
     depends_on:
       backend:
         condition: service_started
