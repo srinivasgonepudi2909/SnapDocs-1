@@ -1,4 +1,4 @@
-# ---- build stage ----
+# build
 FROM node:20-alpine AS build
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
@@ -10,7 +10,7 @@ COPY . .
 ENV CI=true
 RUN npm run build
 
-# ---- runtime (nginx) ----
+# runtime
 FROM nginx:1.27-alpine
 RUN rm -f /etc/nginx/conf.d/default.conf
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
