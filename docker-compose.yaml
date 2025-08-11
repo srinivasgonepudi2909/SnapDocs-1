@@ -42,7 +42,7 @@ services:
     networks:
       - docu_net
 
-   frontend:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
