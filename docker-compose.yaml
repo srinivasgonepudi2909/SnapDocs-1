@@ -1,39 +1,51 @@
-version: '3.8'
+version: "3.9"
 
 services:
   db:
-    image: postgres:15
-    container_name: postgres-db
-    restart: always
+    build: ./db
+    image: docuvault-db:1.0.0
+    container_name: docuvault-db
     environment:
-      POSTGRES_USER: snapuser
-      POSTGRES_PASSWORD: snappass
-      POSTGRES_DB: snapdb
+      POSTGRES_DB: docuvault
+      POSTGRES_USER: docuuser
+      POSTGRES_PASSWORD: docupass
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - appnet
     ports:
-      - "5432:5432"
+      - "5432:5432"   # optional: expose for local psql access
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - docu_net
 
-  auth-service:
+  backend:
     build:
-      context: ./auth-service
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: auth-backend
-    restart: always
+    image: docuvault-backend:1.0.0
+    container_name: docuvault-backend
+    environment:
+      DB_USER: docuuser
+      DB_PASS: docupass
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: docuvault
     depends_on:
-      - db
-    env_file:
-      - ./auth-service/.env
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
+    restart: unless-stopped
     networks:
-      - appnet
+      - docu_net
+
+networks:
+  docu_net:
+    driver: bridge
 
 volumes:
   pgdata:
-
-networks:
-  appnet:
-    driver: bridge
