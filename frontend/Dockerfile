@@ -17,7 +17,7 @@ RUN npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 COPY . .
 # Show full error output if build fails
 ENV CI=true
-RUN npm run build --loglevel verbose
+RUN npm run build
 
 # ---- runtime (nginx) ----
 FROM nginx:1.27-alpine
