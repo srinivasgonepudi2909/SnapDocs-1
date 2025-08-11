@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from .database import Base, engine, get_db
@@ -8,8 +9,21 @@ from .auth import hash_password, verify_password
 
 app = FastAPI(title="DocuVault Auth API")
 
-# Ensure metadata is in sync (table exists). Table is created by init.sql,
-# but this is harmless and keeps SQLAlchemy aware.
+# --- CORS so your browser app can call this API ---
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",     # vite dev (local)
+    "http://54.159.9.221",       # your EC2 frontend over HTTP
+    "https://54.159.9.221",      # if you later add TLS
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Ensure metadata is in sync (table exists). Table is created by init.sql.
 Base.metadata.create_all(bind=engine)
 
 @app.get("/health")
@@ -18,12 +32,10 @@ def health():
 
 @app.post("/signup", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 def signup(payload: SignupIn, db: Session = Depends(get_db)):
-    # Check duplicates (also enforced by UNIQUE constraints)
     existing = db.query(User).filter(
         (User.username == payload.username) | (User.email == payload.email)
     ).first()
     if existing:
-        # precise message for UX
         if existing.username == payload.username:
             raise HTTPException(status_code=409, detail="Username already exists")
         else:
@@ -40,16 +52,12 @@ def signup(payload: SignupIn, db: Session = Depends(get_db)):
         db.refresh(user)
     except IntegrityError:
         db.rollback()
-        # Fallback if race condition hits the DB unique constraints
         raise HTTPException(status_code=409, detail="Username or email already exists")
-
     return user
 
 @app.post("/login")
 def login(payload: LoginIn, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == payload.username).first()
     if not user or not verify_password(payload.password, user.password_hash):
-        # generic message: don't leak which field is wrong
         raise HTTPException(status_code=401, detail="Invalid username or password")
-    # If needed, here we could issue a JWT. For now, just return OK.
     return {"message": "Login successful", "user": {"id": user.id, "username": user.username}}

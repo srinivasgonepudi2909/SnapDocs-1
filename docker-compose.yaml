@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   db:
     build: ./db
@@ -10,21 +9,17 @@ services:
       POSTGRES_PASSWORD: docupass
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    ports: ["5432:5432"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
     restart: unless-stopped
-    networks:
-      - docu_net
+    networks: [docu_net]
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     image: docuvault-backend:1.0.0
     container_name: docuvault-backend
     environment:
@@ -36,11 +31,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "8000:8000"
+    ports: ["8000:8000"]
     restart: unless-stopped
-    networks:
-      - docu_net
+    networks: [docu_net]
 
   frontend:
     build:
@@ -53,11 +46,9 @@ services:
     depends_on:
       backend:
         condition: service_started
-    ports:
-      - "80:80"
+    ports: ["80:80"]
     restart: unless-stopped
-    networks:
-      - docu_net
+    networks: [docu_net]
 
 networks:
   docu_net:
