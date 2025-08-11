@@ -39,7 +39,6 @@ export default function AuthModal({ open, initialMode = "signup", onClose }) {
       } else {
         const res = await login({ username, password });
         setOk(`Welcome ${res.user.username}! Login successful.`);
-        // optional: let app know user logged in
         window.dispatchEvent(new CustomEvent("auth-success", { detail: res.user }));
         setTimeout(() => onClose?.(), 700);
       }
