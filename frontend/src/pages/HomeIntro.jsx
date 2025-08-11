@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HomeIntro.css";
 import logo from "../assets/logo.png";
+import AuthModal from "./components/AuthModal.jsx";
 
 function Folder({ icon, label }) {
   return (
@@ -104,6 +105,11 @@ export default function HomeIntro() {
           <Folder icon={icons.ids} label="IDs" />
           <Folder icon={icons.other} label="Other Documents" />
         </div>
+        <AuthModal
+          open={authOpen}
+          initialMode={initialMode}
+          onClose={() => setAuthOpen(false)}
+        />
       </section>
     </>
   );
